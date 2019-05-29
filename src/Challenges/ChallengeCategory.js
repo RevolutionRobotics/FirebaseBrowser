@@ -7,17 +7,20 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import "./ChallengeCategory.css";
 
 const ChallengeCategory = ({ category }) => (
     <Grid key={category.id} item>
         <Card className="card">
             <CardActionArea>
-                <CardMedia
-                    className="media"
-                    image={category.image}
-                    title="Contemplative Reptile"
-                />
+                <Link to={'/challenge/' + category.id}>
+                    <CardMedia
+                        className="media"
+                        image={category.image}
+                        title="Contemplative Reptile"
+                    />
+                </Link>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                         {category.name}
