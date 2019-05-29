@@ -7,6 +7,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import RobotList from './RobotList/RobotList.js'
+import Challenges from './Challenges/Challenges.js'
 
 function TabContainer(props) {
   return (
@@ -50,7 +51,7 @@ function SimpleTabs() {
         </Tabs>
       </AppBar>
       {value === 0 && <TabContainer><RobotList /></TabContainer>}
-      {value === 1 && <TabContainer>Challanges</TabContainer>}
+      {value === 1 && <TabContainer><Challenges /></TabContainer>}
       {value === 2 && <TabContainer>Programs</TabContainer>}
     </div>
   );
