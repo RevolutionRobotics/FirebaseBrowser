@@ -54,25 +54,20 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-              tabs: [
-                Tab(text: 'Robots'),
-                Tab(text: 'Challenges')
-              ],
-            ),
-            title: Text('Revolution Robotics firebase browser'),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [Tab(text: 'Robots'), Tab(text: 'Challenges')],
           ),
-          body: TabBarView(
-            children: [
-              RobotsScreen(),
-              ChallangesScreen(),
-            ],
-          ),
+          title: Text('Revolution Robotics firebase browser'),
+        ),
+        body: TabBarView(
+          children: [
+            RobotsScreen(),
+            ChallangesScreen(),
+          ],
         ),
       ),
     );
