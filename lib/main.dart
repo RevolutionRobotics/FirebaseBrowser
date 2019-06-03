@@ -1,6 +1,7 @@
-import 'package:firebase/firebase.dart';
 import 'package:flutter_web/material.dart';
+import 'package:flutter_web/widgets.dart';
 import 'package:hzummingbird_test/firebase.dart';
+import 'package:hzummingbird_test/screens/robots.dart';
 
 void main() => runApp(RobotBrowserApp());
 
@@ -12,60 +13,57 @@ class RobotBrowserApp extends StatefulWidget {
 
 class _MainPageState extends State<RobotBrowserApp> {
 
-  Firebase db = Firebase();
+  Firebase _db = Firebase();
+  Map<String, dynamic> _snapshots = {
+    'robot'              : null,
+    'challengeCategory'  : null,
+    'program'            : null
+  };
 
   @override
   void initState() {
     super.initState();
-    
-    db.listen('robot', (e) {
-      setState(() {
-        DataSnapshot datasnapshot = e.snapshot;
-        String _robot = datasnapshot.val()[0]['name'];
 
-        print(datasnapshot.val());
-        print('First robot name: $_robot');
+    _snapshots.keys.forEach((ref) {
+      _db.listen(ref, (e) {
+        setState(() {
+          _snapshots[ref] = e.snapshot.val();
+        });
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_snapshots);
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: TabBarDemo(),
-    );
-  }  
-}
-
-class TabBarDemo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(fontFamily: 'Open Sans'),
+      title: 'Robot Browser',
+      theme: ThemeData(
+        fontFamily: 'Open Sans',
+        primarySwatch: Colors.blue
+      ),
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
               tabs: [
-                Tab(text: "Robots"),
-                Tab(text: "Challanges"),
+                Tab(text: 'Robots'),
+                Tab(text: 'Challanges'),
+                Tab(text: 'Programs')
               ],
             ),
-            title: Text('Tabs Demo'),
+            title: Text('Robot Browser')
           ),
           body: TabBarView(
             children: [
-              Center(
-                child: Text('Robots', textDirection: TextDirection.ltr)
-              ),
+              Robots(_snapshots['robot']),
               Icon(Icons.directions_transit),
-            ],
-          ),
-        ),
-      ),
+              Icon(Icons.apps)
+            ]
+          )
+        )
+      )
     );
-  }
+  }  
 }
