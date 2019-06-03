@@ -1,9 +1,34 @@
+import 'package:firebase/firebase.dart';
 import 'package:flutter_web/material.dart';
+import 'package:hzummingbird_test/firebase.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(RobotBrowserApp());
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class RobotBrowserApp extends StatefulWidget {
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<RobotBrowserApp> {
+
+  Firebase db = Firebase();
+
+  @override
+  void initState() {
+    super.initState();
+    
+    db.listen('robot', (e) {
+      setState(() {
+        DataSnapshot datasnapshot = e.snapshot;
+        String _robot = datasnapshot.val()[0]['name'];
+
+        print(datasnapshot.val());
+        print('First robot name: $_robot');
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,9 +38,8 @@ class MyApp extends StatelessWidget {
       ),
       home: TabBarDemo(),
     );
-  }
+  }  
 }
-
 
 class TabBarDemo extends StatelessWidget {
   @override
