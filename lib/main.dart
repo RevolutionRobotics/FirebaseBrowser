@@ -33,9 +33,7 @@ class _MainPageState extends State<RobotBrowserApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: TabBarDemo(),
     );
   }  
@@ -45,6 +43,7 @@ class TabBarDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'Open Sans'),
       home: DefaultTabController(
         length: 3,
         child: Scaffold(
@@ -59,7 +58,9 @@ class TabBarDemo extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Icon(Icons.directions_car),
+              Center(
+                child: Text('Robots', textDirection: TextDirection.ltr)
+              ),
               Icon(Icons.directions_transit),
             ],
           ),
