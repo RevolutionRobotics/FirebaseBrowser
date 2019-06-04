@@ -27,8 +27,8 @@ class RobotBrowserApp extends StatelessWidget {
             bottom: TabBar(
               tabs: [
                 Tab(text: 'Robots'),
-                Tab(text: 'Challanges'),
-                Tab(text: 'Programs')
+                Tab(text: 'Programs'),
+                Tab(text: 'Challanges')
               ],
             ),
             title: Text('Robot Browser')
