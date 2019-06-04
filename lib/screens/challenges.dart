@@ -13,11 +13,9 @@ class _ChallengesState extends ScreenState {
   _ChallengesState() : super('challengeCategory');
 
   @override
-  Widget buildWithData() {
-    return Center(
-      child: Text(
-        snapshotValue[0]['name']
-      )
+  Widget card(dynamic item) {
+    return Card(
+      child: Text(item['name'])
     );
-  } 
+  }
 }

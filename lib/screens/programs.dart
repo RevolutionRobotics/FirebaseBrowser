@@ -13,11 +13,9 @@ class _ProgramsState extends ScreenState {
   _ProgramsState() : super('program');
 
   @override
-  Widget buildWithData() {
-    return Center(
-      child: Text(
-        snapshotValue[0]['name']
-      )
+  Widget card(dynamic item) {
+    return Card(
+      child: Text(item['name'])
     );
-  } 
+  }
 }
