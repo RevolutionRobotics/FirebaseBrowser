@@ -1,41 +1,19 @@
 import 'package:flutter_web/material.dart';
 import 'package:flutter_web/widgets.dart';
-import 'package:hzummingbird_test/firebase.dart';
-import 'package:hzummingbird_test/screens/robots.dart';
+
+import 'firebase.dart';
+import 'screens/robots.dart';
+import 'screens/programs.dart';
+import 'screens/challenges.dart';
 
 void main() => runApp(RobotBrowserApp());
 
-class RobotBrowserApp extends StatefulWidget {
+class RobotBrowserApp extends StatelessWidget {
 
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<RobotBrowserApp> {
-
-  Firebase _db = Firebase();
-  Map<String, dynamic> _snapshots = {
-    'robot'              : null,
-    'challengeCategory'  : null,
-    'program'            : null
-  };
-
-  @override
-  void initState() {
-    super.initState();
-
-    _snapshots.keys.forEach((ref) {
-      _db.listen(ref, (e) {
-        setState(() {
-          _snapshots[ref] = e.snapshot.val();
-        });
-      });
-    });
-  }
+  static final Firebase db = Firebase();
 
   @override
   Widget build(BuildContext context) {
-    print(_snapshots);
     return MaterialApp(
       title: 'Robot Browser',
       theme: ThemeData(
@@ -57,13 +35,13 @@ class _MainPageState extends State<RobotBrowserApp> {
           ),
           body: TabBarView(
             children: [
-              Robots(_snapshots['robot']),
-              Icon(Icons.directions_transit),
-              Icon(Icons.apps)
+              Robots(),
+              Programs(),
+              Challenges()
             ]
           )
         )
       )
     );
-  }  
+  } 
 }

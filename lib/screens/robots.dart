@@ -1,28 +1,23 @@
 import 'package:flutter_web/cupertino.dart';
 import 'package:flutter_web/material.dart';
+import 'screen_state.dart';
 
-class Robots extends StatelessWidget {
-
-  final dynamic _snapshotValue;
-
-  Robots(this._snapshotValue);
+class Robots extends StatefulWidget {
 
   @override
-  Widget build(BuildContext context) {
-    if (_snapshotValue == null) {
-      return Center(
-        child: Text(
-          'Loading data...'
-        )
-      );
-    }
+  createState() => _RobotsState();
+}
 
-    print(_snapshotValue);
+class _RobotsState extends ScreenState {
+  
+  _RobotsState() : super('robot');
 
+  @override
+  Widget buildWithData() {
     return Center(
       child: Text(
-        _snapshotValue[0]['name']
+        snapshotValue[0]['name']
       )
     );
-  }
+  } 
 }

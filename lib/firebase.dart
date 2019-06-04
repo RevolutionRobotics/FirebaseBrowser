@@ -2,7 +2,7 @@ import 'package:firebase/firebase.dart';
 
 class Firebase {
 
-  static final Firebase _singleton = new Firebase._internal();
+  static final Firebase _singleton = Firebase._internal();
   static Database _database;
 
   factory Firebase() {
