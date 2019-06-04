@@ -20,7 +20,7 @@ abstract class ScreenState extends State<StatefulWidget> {
     });
   }
 
-  Widget card(dynamic index);
+  Widget card(dynamic item);
 
   List<Widget> _buildCards() {
     List<Widget> cells = [];
