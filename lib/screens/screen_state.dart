@@ -32,7 +32,27 @@ abstract class ScreenState extends State<StatefulWidget> {
     return cells;
   }
 
+  void getImageUrl(String gsUrl, Function callback) {
+    RobotBrowserApp.db.getImageUrl(gsUrl, callback);
+  }
+
+  int cardSizeRatio() {
+    final orientation = MediaQuery.of(context).orientation;
+    return (orientation == Orientation.landscape) ? 6 : 3;
+  }
+
   Widget _buildWithData() {
+    final cards = _buildCards();
+    
+    if (cards.isEmpty) {
+      return Center(
+        child: Text(
+          'List is empty',
+          textAlign: TextAlign.center,
+        )
+      );
+    }
+
     final orientation = MediaQuery.of(context).orientation;
     int count = (orientation == Orientation.landscape) ? 4 : 2;
 
