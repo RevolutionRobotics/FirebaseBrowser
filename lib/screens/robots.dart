@@ -3,6 +3,8 @@ import 'package:flutter_web/material.dart';
 import 'package:flutter_web/widgets.dart';
 import 'screen_state.dart';
 
+import 'robot_details.dart';
+
 class Robots extends StatefulWidget {
 
   @override
@@ -37,17 +39,26 @@ class _RobotsState extends ScreenState {
       });
     }
 
-    return Card(
-      child: Column(
-        children: <Widget>[
-          Container(
-            child: _loadedImageWidget(key),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.width / cardSizeRatio(), 
-          ),
-          Text(item['name'])
-        ]
-      )
+    return new GestureDetector(
+      onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RobotDetails()),
+            );
+          },
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            Container(
+              child: _loadedImageWidget(key),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width / cardSizeRatio(), 
+            ),
+            Text(item['name'])
+          ]
+        ),
+      ),
     );
+
   }
 }
