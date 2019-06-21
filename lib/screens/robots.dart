@@ -43,7 +43,7 @@ class _RobotsState extends ScreenState {
       onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RobotDetails()),
+              MaterialPageRoute(builder: (context) => RobotDetails(item['id'])),
             );
           },
       child: Card(
