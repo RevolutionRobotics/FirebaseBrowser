@@ -1,9 +1,9 @@
 import 'package:flutter_web/material.dart';
 import 'package:flutter_web/widgets.dart';
 
-import 'robots.dart';
-import 'programs.dart';
-import 'challenges.dart';
+import '../robots/robots.dart';
+import '../programs/programs.dart';
+import '../challenges/challenges.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

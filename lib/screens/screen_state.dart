@@ -1,6 +1,6 @@
 import 'package:flutter_web/cupertino.dart';
 import 'package:flutter_web/material.dart';
-import 'package:hzummingbird_test/main.dart';
+import 'package:revvy_firebase_browser/main.dart';
 
 abstract class ScreenState extends State<StatefulWidget> {
 

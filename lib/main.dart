@@ -2,7 +2,7 @@ import 'package:flutter_web/material.dart';
 import 'package:flutter_web/widgets.dart';
 
 import 'firebase.dart';
-import 'screens/home.dart';
+import 'screens/home/home.dart';
 
 void main() => runApp(RobotBrowserApp());
 

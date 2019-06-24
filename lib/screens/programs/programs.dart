@@ -1,16 +1,16 @@
 import 'package:flutter_web/cupertino.dart';
 import 'package:flutter_web/material.dart';
-import 'screen_state.dart';
+import '../screen_state.dart';
 
-class Challenges extends StatefulWidget {
+class Programs extends StatefulWidget {
 
   @override
-  createState() => _ChallengesState();
+  createState() => _ProgramsState();
 }
 
-class _ChallengesState extends ScreenState {
+class _ProgramsState extends ScreenState {
   
-  _ChallengesState() : super('challengeCategory');
+  _ProgramsState() : super('program');
 
   @override
   Widget card(dynamic item) {

@@ -1,8 +1,8 @@
 import 'package:flutter_web/cupertino.dart';
 import 'package:flutter_web/material.dart';
 import 'package:flutter_web/widgets.dart';
-import 'screen_state.dart';
 
+import '../screen_state.dart';
 import 'robot_details.dart';
 
 class Robots extends StatefulWidget {
