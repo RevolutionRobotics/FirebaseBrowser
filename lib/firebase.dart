@@ -27,6 +27,11 @@ class Firebase {
     ref.onValue.listen(listener);
   }
 
+  void once(String reference, Function callback) {
+    DatabaseReference ref = _database.ref(reference);
+    ref.once('value').then((e) => callback(e));
+  }
+
   void getImageUrl(String gsUrl, Function callback) {
     final StorageReference ref = _storage.refFromURL(gsUrl);
     ref.getDownloadURL().then((value) {
