@@ -25,8 +25,8 @@ abstract class ScreenState extends State<StatefulWidget> {
   List<Widget> _buildCards() {
     List<Widget> cells = [];
 
-    snapshotValue.forEach((item) {
-      cells.add(card(item));
+    snapshotValue.keys.forEach((key) { 
+      cells.add(card(snapshotValue[key]));
     });
 
     return cells;

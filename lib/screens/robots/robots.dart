@@ -41,11 +41,11 @@ class _RobotsState extends ScreenState {
 
     return new GestureDetector(
       onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RobotDetails(item['id'])),
-            );
-          },
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RobotDetails(item['id'])),
+        );
+      },
       child: Card(
         child: Column(
           children: <Widget>[
