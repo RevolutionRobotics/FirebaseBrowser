@@ -1,5 +1,8 @@
 {
   "hosting": {
+    "predeploy": [
+      "flutter pub global run webdev build"
+    ],
     "public": "build",
     "ignore": [
       "firebase.json",
