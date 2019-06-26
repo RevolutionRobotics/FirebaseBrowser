@@ -9,7 +9,7 @@ import 'package:revvy_firebase_browser/main.dart';
 
 class RobotDetails extends StatefulWidget {
 
-  final int _robotId;
+  final String _robotId;
 
   RobotDetails(this._robotId, {Key key}): super(key: key);
 
@@ -19,7 +19,7 @@ class RobotDetails extends StatefulWidget {
 
 class _RobotDetailsState extends State<RobotDetails> {
 
-  final int _robotId;
+  final String _robotId;
   final _shadowStyle = TextStyle(
     shadows: [
       Shadow(
@@ -121,7 +121,7 @@ class _RobotDetailsState extends State<RobotDetails> {
     return <Widget>[
       _textInputItem('name', 'Robot name'),
       _textInputItem('description', 'Description'),
-      _textInputItem('buildTime', 'BuildTime')
+      _textInputItem('buildTime', 'Build time')
     ];
   }
 
