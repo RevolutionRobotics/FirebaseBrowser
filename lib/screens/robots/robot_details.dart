@@ -100,11 +100,11 @@ class _RobotDetailsState extends State<RobotDetails> {
               background: _coverImage,
             )
           ),
-          SliverFillRemaining(
-            child: Text(
-              'Content goes here...',
-              style: _shadowStyle
-            ),
+          SliverPadding(
+            padding: EdgeInsets.all(20.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(_formContent()),
+            )
           )
         ]
       )
@@ -115,6 +115,26 @@ class _RobotDetailsState extends State<RobotDetails> {
     setState(() {
       _coverImage = Image.network(url, fit: BoxFit.cover);
     });
+  }
+
+  List<Widget> _formContent() {
+    return <Widget>[
+      _textInputItem('name', 'Robot name'),
+      _textInputItem('description', 'Description'),
+      _textInputItem('buildTime', 'BuildTime')
+    ];
+  }
+
+  Widget _textInputItem(String key, String label) {
+    return Padding(
+      padding: EdgeInsets.only(top: 20.0),
+      child: TextField(
+        controller: TextEditingController(text: _robotProperties[key]),
+        decoration: InputDecoration(
+          labelText: label
+        )
+      )
+    );
   }
 
   Widget _loadingWidget() {
