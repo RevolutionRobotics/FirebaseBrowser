@@ -32,9 +32,11 @@ class _RobotDetailsState extends State<RobotDetails> {
 
   ScrollController _scrollController = ScrollController();
 
-  double _opacity = 1.0;
   dynamic _robotProperties;
   Widget _coverImage;
+
+  double _pageTitleOpacity = 1.0;
+  double _titleOverflow = 0.5;
 
   _RobotDetailsState(this._robotId);
 
@@ -45,7 +47,8 @@ class _RobotDetailsState extends State<RobotDetails> {
     _scrollController.addListener(() { 
       double offset = _scrollController.offset;
       setState(() {
-        _opacity = max(0, 1 - (offset / 150.0));
+        _pageTitleOpacity = max(0, 1 - (offset / 150.0));
+        _titleOverflow = offset >= 120.0 ? 0.7 : 0.5;
       });
     });
 
@@ -68,6 +71,9 @@ class _RobotDetailsState extends State<RobotDetails> {
       return _loadingWidget();
     }
 
+    final mediaQuery = MediaQuery.of(context);
+    final availableWidth = mediaQuery.size.width * _titleOverflow;
+
     return Scaffold(
       body: CustomScrollView(
         controller: _scrollController,
@@ -75,21 +81,22 @@ class _RobotDetailsState extends State<RobotDetails> {
           SliverAppBar(
             expandedHeight: 200.0,
             iconTheme: IconThemeData(color: Colors.white),
-            title: Text(
-              'Robot details',
-              style: _shadowStyle,
+            title: Opacity(
+              opacity: _pageTitleOpacity,
+              child: Text(
+                'Robot details',
+                style: _shadowStyle,
+              )
             ),
             pinned: true,
-            
             flexibleSpace: FlexibleSpaceBar(
-              title: Opacity(
-                opacity: _opacity,
+              title: Container(
+                width: availableWidth,
                 child: Text(
                   _robotProperties['name'],
-                  style: _shadowStyle
+                  overflow: TextOverflow.ellipsis
                 )
               ),
-
               background: _coverImage,
             )
           ),
