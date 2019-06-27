@@ -55,7 +55,10 @@ class _RobotsState extends ScreenState {
               width: availableWidth,
               height: availableWidth / cardSizeRatio(), 
             ),
-            Text(item['name'])
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(item['name'])
+            )
           ]
         ),
       ),
