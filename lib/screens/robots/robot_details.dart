@@ -20,17 +20,7 @@ class RobotDetails extends StatefulWidget {
 class _RobotDetailsState extends State<RobotDetails> {
 
   final String _robotId;
-  final _shadowStyle = TextStyle(
-    shadows: [
-      Shadow(
-        offset: Offset(20.0, 20.0),
-        blurRadius: 8.0,
-        color: Color.fromARGB(205, 0, 0, 0)
-      )
-    ]
-  );
-
-  ScrollController _scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   dynamic _robotProperties;
   Widget _coverImage;
@@ -83,10 +73,7 @@ class _RobotDetailsState extends State<RobotDetails> {
             iconTheme: IconThemeData(color: Colors.white),
             title: Opacity(
               opacity: _pageTitleOpacity,
-              child: Text(
-                'Robot details',
-                style: _shadowStyle,
-              )
+              child: Text('Robot details')
             ),
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -113,7 +100,13 @@ class _RobotDetailsState extends State<RobotDetails> {
 
   void _updateCoverImage(String url) {
     setState(() {
-      _coverImage = Image.network(url, fit: BoxFit.cover);
+      _coverImage = Container(
+        color: Colors.black,
+        child: Opacity(
+          opacity: 0.8,
+          child: Image.network(url, fit: BoxFit.cover),
+        ),
+      );
     });
   }
 

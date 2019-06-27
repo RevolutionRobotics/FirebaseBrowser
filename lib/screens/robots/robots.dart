@@ -30,6 +30,7 @@ class _RobotsState extends ScreenState {
   @override
   Widget card(dynamic item) {
     final String key = item['coverImage'];
+    final availableWidth = MediaQuery.of(context).size.width;
 
     if (!_images.containsKey(key)) {
       getImageUrl(key, (url) {
@@ -39,7 +40,7 @@ class _RobotsState extends ScreenState {
       });
     }
 
-    return new GestureDetector(
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
@@ -51,14 +52,13 @@ class _RobotsState extends ScreenState {
           children: <Widget>[
             Container(
               child: _loadedImageWidget(key),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width / cardSizeRatio(), 
+              width: availableWidth,
+              height: availableWidth / cardSizeRatio(), 
             ),
             Text(item['name'])
           ]
         ),
       ),
     );
-
   }
 }
