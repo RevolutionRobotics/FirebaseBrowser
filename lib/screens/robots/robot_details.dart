@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:html';
 
 import 'package:flutter_web/cupertino.dart';
 import 'package:flutter_web/material.dart';
@@ -21,6 +22,7 @@ class _RobotDetailsState extends State<RobotDetails> {
 
   final String _robotId;
   final _scrollController = ScrollController();
+  final _input = FileUploadInputElement();
 
   dynamic _robotProperties;
   Widget _coverImage;
@@ -34,6 +36,7 @@ class _RobotDetailsState extends State<RobotDetails> {
   void initState() {
     super.initState();
 
+    _initFileInput();
     _scrollController.addListener(() { 
       double offset = _scrollController.offset;
       setState(() {
@@ -65,37 +68,83 @@ class _RobotDetailsState extends State<RobotDetails> {
     final availableWidth = mediaQuery.size.width * _titleOverflow;
 
     return Scaffold(
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: <Widget>[
-          SliverAppBar(
-            expandedHeight: 200.0,
-            iconTheme: IconThemeData(color: Colors.white),
-            title: Opacity(
-              opacity: _pageTitleOpacity,
-              child: Text('Robot details')
-            ),
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Container(
-                width: availableWidth,
-                child: Text(
-                  _robotProperties['name'],
-                  overflow: TextOverflow.ellipsis
-                )
+      body: Stack(
+        children: <Widget>[
+          CustomScrollView(
+            controller: _scrollController,
+            slivers: <Widget>[
+              SliverAppBar(
+                expandedHeight: 200.0,
+                iconTheme: IconThemeData(color: Colors.white),
+                title: Opacity(
+                  opacity: _pageTitleOpacity,
+                  child: Text('Robot details')
+                ),
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Container(
+                    width: availableWidth,
+                    child: Text(
+                      _robotProperties['name'],
+                      overflow: TextOverflow.ellipsis
+                    )
+                  ),
+                  background: _coverImage,
+                ),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.image),
+                    onPressed: () => _input.click()
+                  )
+                ],
               ),
-              background: _coverImage,
-            )
+              SliverPadding(
+                padding: EdgeInsets.only(
+                  top: 20.0, 
+                  left: 20.0, 
+                  right: 20.0, 
+                  bottom: 100.0
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(_formContent()),
+                )
+              )
+            ]
           ),
-          SliverPadding(
-            padding: EdgeInsets.all(20.0),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate(_formContent()),
+          Positioned(
+            bottom: 16.0,
+            right: 16.0,
+            child: FloatingActionButton(
+              onPressed: () {},
+              child: Icon(Icons.save),
             )
           )
         ]
       )
     );
+  }
+
+  void _initFileInput() {
+    FileReader reader = FileReader();
+
+    reader.onLoad.listen((event) {
+      final fileContent = reader.result;
+      
+      setState(() {
+        _coverImage = Container(
+          color: Colors.black,
+          child: Opacity(
+            opacity: 0.8,
+            child: Image.memory(fileContent, fit: BoxFit.cover)
+          ),
+        );
+      });
+    });
+
+    _input.onInput.listen((event) {
+      final file = (event.currentTarget as InputElement).files.first;
+      reader.readAsArrayBuffer(file);   
+    });
   }
 
   void _updateCoverImage(String url) {
