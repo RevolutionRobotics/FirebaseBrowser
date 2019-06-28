@@ -122,7 +122,7 @@ class _RobotDetailsState extends State<RobotDetails> {
                 final ref = 'robot/$_robotId';
 
                 if (_selectedImage != null) {
-                  db.updateImage('robot', _robotId, _selectedImage).then((value) {
+                  db.updateImage(ref, _selectedImage).then((value) {
                     _robotProperties['coverImage'] = value;
                     db.update(ref, _robotProperties);
 

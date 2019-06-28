@@ -38,9 +38,9 @@ class Firebase {
     return await _storage.refFromURL(gsUrl).getDownloadURL();
   }
 
-  Future<String> updateImage(String reference, String id, File image) async {
+  Future<String> updateImage(String reference, File image) async {
     String extension = image.name.contains('.') ? '.${image.name.split('.').last}' : '';
-    String path = '$reference/$id/coverImage$extension';
+    String path = '$reference/coverImage$extension';
     
     await _storage.ref(path).put(image).future;
     return _storage.ref(path).toString();
