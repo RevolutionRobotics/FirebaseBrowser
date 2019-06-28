@@ -39,8 +39,8 @@ abstract class ScreenState extends State<StatefulWidget> {
     return cells;
   }
 
-  void getImageUrl(String gsUrl, Function callback) {
-    RobotBrowserApp.db.getImageUrl(gsUrl, callback);
+  Future<Uri> getImageUrl(String gsUrl) async {
+    return await RobotBrowserApp.db.getImageUrl(gsUrl);
   }
 
   int cardSizeRatio() {

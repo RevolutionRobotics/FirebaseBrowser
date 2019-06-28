@@ -27,6 +27,7 @@ class _RobotDetailsState extends State<RobotDetails> {
 
   dynamic _robotProperties;
   Widget _coverImage;
+  File _selectedImage;
 
   double _pageTitleOpacity = 1.0;
   double _titleOverflow = 0.5;
@@ -54,7 +55,7 @@ class _RobotDetailsState extends State<RobotDetails> {
         print('PROPERTIES: $_robotProperties');
 
         String gsUrl = _robotProperties['coverImage'].toString();
-        db.getImageUrl(gsUrl, (url) => _updateCoverImage(url));
+        db.getImageUrl(gsUrl).then((url) => _updateCoverImage(url.toString()));
       });
     });
   }
@@ -117,7 +118,19 @@ class _RobotDetailsState extends State<RobotDetails> {
             right: 16.0,
             child: FloatingActionButton(
               onPressed: () => setState(() {
-                RobotBrowserApp.db.update('robot/$_robotId', _robotProperties);
+                final db = RobotBrowserApp.db;
+                final ref = 'robot/$_robotId';
+
+                if (_selectedImage != null) {
+                  db.updateImage('robot', _robotId, _selectedImage).then((value) {
+                    _robotProperties['coverImage'] = value;
+                    db.update(ref, _robotProperties);
+
+                    _selectedImage = null;
+                  });
+                } else {
+                  db.update(ref, _robotProperties);
+                }
               }),
               child: Icon(Icons.save),
             )
@@ -140,7 +153,8 @@ class _RobotDetailsState extends State<RobotDetails> {
 
     _input.accept = 'image/*';
     _input.onInput.listen((event) {
-      reader.readAsArrayBuffer(_input.files.first);   
+      _selectedImage = _input.files.first;
+      reader.readAsArrayBuffer(_selectedImage);
     });
   }
 

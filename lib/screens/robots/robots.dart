@@ -33,9 +33,9 @@ class _RobotsState extends ScreenState {
     final availableWidth = MediaQuery.of(context).size.width;
 
     if (!_images.containsKey(key)) {
-      getImageUrl(key, (url) {
+      getImageUrl(key).then((url) {
         setState(() {
-          _images[key] = url;
+          _images[key] = url.toString();
         });
       });
     }
