@@ -128,34 +128,24 @@ class _RobotDetailsState extends State<RobotDetails> {
     FileReader reader = FileReader();
 
     reader.onLoad.listen((event) {
-      final fileContent = reader.result;
+      final image = Image.memory(reader.result, fit: BoxFit.cover);
       
       setState(() {
-        _coverImage = Container(
-          color: Colors.black,
-          child: Opacity(
-            opacity: 0.8,
-            child: Image.memory(fileContent, fit: BoxFit.cover)
-          ),
-        );
+        _coverImage = _headerImageContainer(image);
       });
     });
 
+    _input.accept = 'image/*';
     _input.onInput.listen((event) {
-      final file = (event.currentTarget as InputElement).files.first;
-      reader.readAsArrayBuffer(file);   
+      reader.readAsArrayBuffer(_input.files.first);   
     });
   }
 
   void _updateCoverImage(String url) {
+    final image = Image.network(url, fit: BoxFit.cover);
+
     setState(() {
-      _coverImage = Container(
-        color: Colors.black,
-        child: Opacity(
-          opacity: 0.8,
-          child: Image.network(url, fit: BoxFit.cover),
-        ),
-      );
+      _coverImage = _headerImageContainer(image);
     });
   }
 
@@ -165,6 +155,16 @@ class _RobotDetailsState extends State<RobotDetails> {
       _textInputItem('description', 'Description'),
       _textInputItem('buildTime', 'Build time')
     ];
+  }
+
+  Widget _headerImageContainer(Image child) {
+    return Container(
+      color: Colors.black,
+      child: Opacity(
+        opacity: 0.8,
+        child: child,
+      ),
+    );
   }
 
   Widget _textInputItem(String key, String label) {
