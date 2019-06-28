@@ -3,6 +3,7 @@ import 'dart:html';
 
 import 'package:flutter_web/cupertino.dart';
 import 'package:flutter_web/material.dart';
+import 'package:flutter_web/rendering.dart';
 import 'package:flutter_web/widgets.dart';
 
 import 'package:revvy_firebase_browser/firebase.dart';
@@ -194,7 +195,7 @@ class _RobotDetailsState extends State<RobotDetails> {
           ),
           Text(
             'Loading robot data...',
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.center
           )
         ]
       )

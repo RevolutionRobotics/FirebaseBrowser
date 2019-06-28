@@ -29,7 +29,7 @@ abstract class ScreenState extends State<StatefulWidget> {
     snapshotValue.keys.forEach((key) => keys.add(key));
 
     keys.sort((a, b) => (
-      snapshotValue[a]['order'].compareTo(snapshotValue[b]['order'])
+      snapshotValue[a]['order']?.compareTo(snapshotValue[b]['order']) ?? 0
     ));
 
     keys.forEach((key) { 
