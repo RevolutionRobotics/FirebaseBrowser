@@ -39,5 +39,9 @@ class Firebase {
     });
   }
 
+  void update(String reference, dynamic value) {
+    _database.ref(reference).update(value);
+  }
+
   Firebase._internal();
 }

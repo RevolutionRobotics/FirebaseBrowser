@@ -115,7 +115,9 @@ class _RobotDetailsState extends State<RobotDetails> {
             bottom: 16.0,
             right: 16.0,
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () => setState(() {
+                RobotBrowserApp.db.update('robot/$_robotId', _robotProperties);
+              }),
               child: Icon(Icons.save),
             )
           )
@@ -152,6 +154,7 @@ class _RobotDetailsState extends State<RobotDetails> {
   List<Widget> _formContent() {
     return <Widget>[
       _textInputItem('name', 'Robot name'),
+      _textInputItem('defaultProgram', 'Default program'),
       _textInputItem('description', 'Description'),
       _textInputItem('buildTime', 'Build time')
     ];
@@ -172,6 +175,7 @@ class _RobotDetailsState extends State<RobotDetails> {
       padding: EdgeInsets.only(top: 20.0),
       child: TextField(
         controller: TextEditingController(text: _robotProperties[key]),
+        onChanged: (text) =>_robotProperties[key] = text,
         decoration: InputDecoration(
           labelText: label
         )
