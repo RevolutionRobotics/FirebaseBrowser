@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:html';
 
 import 'package:flutter_web/cupertino.dart';
@@ -25,12 +24,10 @@ class _RobotDetailsState extends State<RobotDetails> {
   final _scrollController = ScrollController();
   final _input = FileUploadInputElement();
 
+  double _titleOverflow = 0.5;
   dynamic _robotProperties;
   Widget _coverImage;
   File _selectedImage;
-
-  double _pageTitleOpacity = 1.0;
-  double _titleOverflow = 0.5;
 
   _RobotDetailsState(this._robotId);
 
@@ -41,10 +38,16 @@ class _RobotDetailsState extends State<RobotDetails> {
     _initFileInput();
     _scrollController.addListener(() { 
       double offset = _scrollController.offset;
-      setState(() {
-        _pageTitleOpacity = max(0, 1 - (offset / 150.0));
-        _titleOverflow = offset >= 120.0 ? 0.7 : 0.5;
-      });
+
+      if (offset >= 120.0 && _titleOverflow == 0.5) {
+        setState(() {
+          _titleOverflow = 0.7;
+        });
+      } else if (offset < 120.0 && _titleOverflow == 0.7) {
+        setState(() {
+          _titleOverflow = 0.5;
+        });
+      }
     });
 
     Firebase db = RobotBrowserApp.db;
@@ -78,10 +81,6 @@ class _RobotDetailsState extends State<RobotDetails> {
               SliverAppBar(
                 expandedHeight: 200.0,
                 iconTheme: IconThemeData(color: Colors.white),
-                title: Opacity(
-                  opacity: _pageTitleOpacity,
-                  child: Text('Robot details')
-                ),
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
                   title: Container(
