@@ -22,7 +22,7 @@ class _RobotDetailsState extends State<RobotDetails> {
 
   final String _robotId;
   final _scrollController = ScrollController();
-  final _input = FileUploadInputElement();
+  final _input = FileUploadInputElement()..accept = 'image/*';
 
   double _titleOverflow = 0.5;
   dynamic _robotProperties;
@@ -150,8 +150,11 @@ class _RobotDetailsState extends State<RobotDetails> {
       });
     });
 
-    _input.accept = 'image/*';
     _input.onInput.listen((event) {
+      if (_input.files?.length != 1) {
+        return;
+      }
+
       _selectedImage = _input.files.first;
       reader.readAsArrayBuffer(_selectedImage);
     });
