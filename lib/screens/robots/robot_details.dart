@@ -24,8 +24,18 @@ class _RobotDetailsState extends State<RobotDetails> {
   final _scrollController = ScrollController();
   final _input = FileUploadInputElement()..accept = 'image/*';
 
+  final Map<String, String> _images = {};
+  final _placeholder = Image.asset(
+    'images/rrf-mark-black-transparent-bg.png',
+    fit: BoxFit.contain
+  );
+
   double _titleOverflow = 0.5;
   dynamic _robotProperties;
+  
+  dynamic _buildSteps;
+  int _currentBuildStep = 0;
+
   Widget _coverImage;
   File _selectedImage;
 
@@ -52,9 +62,19 @@ class _RobotDetailsState extends State<RobotDetails> {
 
     Firebase db = RobotBrowserApp.db;
 
-    db.once('robot/$_robotId', (e) {
+    db.once('robot/$_robotId', (robot) {
+      final robotSnapshot = robot.snapshot.val();
+
+      db.once('buildStep', (steps) {
+        setState(() {
+          _buildSteps = steps.snapshot.val()..removeWhere((k, v) => (
+            v['robotId'] != robotSnapshot['id']
+          ));
+        });
+      });
+
       setState(() {
-        _robotProperties = e.snapshot.val();
+        _robotProperties = robotSnapshot;
         print('PROPERTIES: $_robotProperties');
 
         String gsUrl = _robotProperties['coverImage'].toString();
@@ -173,7 +193,19 @@ class _RobotDetailsState extends State<RobotDetails> {
       _textInputItem('name', 'Robot name'),
       _textInputItem('defaultProgram', 'Default program'),
       _textInputItem('description', 'Description'),
-      _textInputItem('buildTime', 'Build time')
+      _textInputItem('buildTime', 'Build time'),
+      Padding(
+        padding: EdgeInsets.only(top: 80),
+        child: Center(
+          child: Text(
+            'Build flow editor',
+            style: Theme.of(context).textTheme.title,
+          )
+        )
+      ),
+      (_buildSteps == null) 
+        ? Text('Loading build steps...') 
+        : _buildStepsWidget()
     ];
   }
 
@@ -199,6 +231,67 @@ class _RobotDetailsState extends State<RobotDetails> {
       )
     );
   }
+
+  Widget _buildStepsWidget() {
+    List<Step> stepsList = [];
+
+    _buildSteps.keys.toList()
+      ..sort((String a, String b) => (
+        _buildSteps[a]['stepNumber']?.compareTo(_buildSteps[b]['stepNumber']) as int ?? 0
+      ))
+      ..forEach((key) {
+        final step = _buildSteps[key];
+
+        RobotBrowserApp.db.getImageUrl(step['image']).then((url) {
+          if (!_images.keys.contains(key)) {
+            setState(() {
+              _images[key] = url.toString();
+            });
+          }
+        });
+
+        stepsList.add(Step(
+          title: Text('Step ${step['stepNumber']}'),
+          content: Flex(
+            direction: Axis.vertical,
+            children: <Widget>[
+              (_images.keys.contains(key)
+                ? Image.network(
+                  _images[key], 
+                  fit: BoxFit.fitWidth,
+                  width: 300
+                )
+                : _placeholder
+              )
+            ]
+          )
+        ));
+      });
+
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Stepper(
+        steps: stepsList,
+        currentStep: _currentBuildStep,
+        onStepTapped: (step) {
+          setState(() {
+            _currentBuildStep = step;
+          });
+        },
+        controlsBuilder: (context, { onStepContinue, onStepCancel }) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                child: Text('Change image'),
+                onPressed: () => print('Change image button pressed')
+              )
+            ]
+          );
+        }
+      )
+    );
+  } 
 
   Widget _loadingWidget() {
     return Center(

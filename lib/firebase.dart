@@ -39,7 +39,10 @@ class Firebase {
   }
 
   Future<String> updateImage(String reference, File image) async {
-    String extension = image.name.contains('.') ? '.${image.name.split('.').last}' : '';
+    String extension = image.name.contains('.') 
+      ? '.${image.name.split('.').last}' 
+      : '';
+      
     String path = '$reference/coverImage$extension';
     
     await _storage.ref(path).put(image).future;
